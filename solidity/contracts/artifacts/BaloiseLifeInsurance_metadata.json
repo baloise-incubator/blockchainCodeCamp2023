@@ -11,6 +11,83 @@
 				"type": "constructor"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "receiver",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "payout",
+						"type": "uint256"
+					},
+					{
+						"components": [
+							{
+								"internalType": "string",
+								"name": "firstName",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "lastName",
+								"type": "string"
+							},
+							{
+								"internalType": "uint256",
+								"name": "currentAge",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "balance",
+								"type": "uint256"
+							},
+							{
+								"internalType": "bool",
+								"name": "active",
+								"type": "bool"
+							}
+						],
+						"indexed": false,
+						"internalType": "struct BaloiseLifeInsurance.Customer",
+						"name": "customer",
+						"type": "tuple"
+					}
+				],
+				"name": "Payout",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "sender",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "balance",
+						"type": "uint256"
+					}
+				],
+				"name": "Transfer",
+				"type": "event"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "string",
@@ -26,6 +103,11 @@
 						"internalType": "uint256",
 						"name": "_currentAge",
 						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
 					}
 				],
 				"name": "addCustomer",
@@ -34,7 +116,13 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
 				"name": "getCustomerAge",
 				"outputs": [
 					{
@@ -47,7 +135,13 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
 				"name": "getFullName",
 				"outputs": [
 					{
@@ -57,6 +151,50 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "mountlyPay",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "numberOfCustomers",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_walletAddress",
+						"type": "address"
+					}
+				],
+				"name": "payout",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			}
 		],
@@ -88,11 +226,11 @@
 	},
 	"sources": {
 		"contracts/BaloiseLifeInsurance.sol": {
-			"keccak256": "0x3a30febe2175bc4af1480d1bfd2f10898b2fc23c4f80ecd3d065cf6675da55f3",
+			"keccak256": "0x866c48db5f5aca721bb485283bf463a7dbe8c4ecbc61ed5f9c6489262a7097cf",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3e667901467a72d3a7ada0c63d708fae54819945e6280971505f136325803d8b",
-				"dweb:/ipfs/QmPniGDDZm1KzAzCfg1moYJQkgdWoy24Rz8nEBBV1G5yfa"
+				"bzz-raw://1dac6ef0740a56ede38fcfb4a3416ec6d52d36370cb0d5c24795e4d61fdd384f",
+				"dweb:/ipfs/QmbbwgeBHdCd3zHFaB87Cq9faTh3j9v1j3Cs85Rugt4QW3"
 			]
 		}
 	},
