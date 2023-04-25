@@ -9,12 +9,12 @@ For creating smart contract we use [Remix IDE](https://remix.ethereum.org/) and 
 There you can create contract, however deployment would be  local and not
 published to any network. In order to be able to publish smart contract
 to public blockchain network like Ethereum one needs to connect remix online
-ide with wallet. We used [Metamsk](https://metamask.io/)
+ide with wallet. We used [Metamask](https://metamask.io/)
 Usefull video can be found here:
 https://www.youtube.com/watch?v=VPrSnLdE-A0&ab_channel=CodePulse
 
 Once we have contract written we need to put it "live" which means it has
-to be deployed on some block chain network. We chose official ethereum test
+to be deployed on some blockchain network. We chose official ethereum test
 network [Sepolia](https://ethereum.org/en/developers/docs/networks/)
 In order to deploy this smart contract one test network one needs ethereum
 coins to pay for contract deployment. For test environment currency is SepoliaETH.
