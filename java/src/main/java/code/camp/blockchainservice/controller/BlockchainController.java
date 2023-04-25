@@ -1,0 +1,21 @@
+package code.camp.blockchainservice.controller;
+
+import code.camp.blockchainservice.blockchain.BlockchainService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+@RestController
+public class BlockchainController {
+
+    private final BlockchainService blockchain;
+
+    BlockchainController(BlockchainService blockchain) {
+        this.blockchain = blockchain;
+    }
+    @GetMapping("/smart-contracts/{smartContractHash}")
+    SmartContract getInfo(@PathVariable Long smartContractHash) {
+
+        return blockchain.getSmartContractByHash(smartContractHash);
+    }
+
+}
