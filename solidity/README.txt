@@ -31,3 +31,9 @@ Wallet addresses used for test purposes:
 - 0xe2899bddFD890e320e643044c6b95B9B0b84157A
 - 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
 - 0x1aE0EA34a72D944a8C7603FfB3eC30a6669E454C
+
+Sepolia Etherscan
+ - https://sepolia.etherscan.io/
+
+Infura API Key
+- https://app.infura.io/dashboard
