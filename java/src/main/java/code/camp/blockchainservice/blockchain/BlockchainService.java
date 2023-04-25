@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.Credentials;
+import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.http.HttpService;
 
@@ -19,9 +20,9 @@ public class BlockchainService {
     public SmartContract getSmartContractByHash(Long smartContractHash) {
 
         var accessToken = System.getenv(TOKEN);
-        var web3j = Web3j.build(new HttpService("https://rinkeby.infura.io/" + accessToken));
+        var web3j = Web3j.build(new HttpService("https://sepolia.infura.io/v3/" + accessToken));
 
-        Credentials credentials;
+//        Credentials credentials = WalletUtils.loadCredentials();
 //        BaloiseLifeInsurance.deploy(web3j, credentials);
 
         _logger.info("calling Etherium TEST blockchain for hash : " + smartContractHash);
