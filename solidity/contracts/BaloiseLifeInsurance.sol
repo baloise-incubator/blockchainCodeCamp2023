@@ -63,6 +63,10 @@ contract BaloiseLifeInsurance{
     }
 
     function getContractBalance() public view returns (uint256){
+        //A variable of the type address always has a property called .balance which gives you the amount of ether stored on that address. 
+        //It doesn't mean you can access them, it just tells you how much is stored there. 
+        //Remember, it's all public information. address(this) converts the Smart Contract instance to an address. 
+        //So, this line essentially returns the amount of Ether that are stored on the Smart Contract itself.
         return address(this).balance;
     }
 
