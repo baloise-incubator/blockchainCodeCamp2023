@@ -1,9 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
 
-//Enable console.log function
-import "hardhat/console.sol";
-
 contract BaloiseLifeInsurance{
     
     struct Customer { 
@@ -56,8 +53,6 @@ contract BaloiseLifeInsurance{
         require(msg.value > 0, "The amount must be bigger then zero.");
         //Contains the amount of Wei that was sent to the smart contract.
         customers[_walletAddress].balance += msg.value;
-        console.log("Premium payed - customer: '%s %s' amount: %s", customers[_walletAddress].firstName, customers[_walletAddress].lastName, msg.value);
-        console.log("Contract balance: %s", address(this).balance);
     }
 
     function payout(address _walletAddress) public{
@@ -71,21 +66,17 @@ contract BaloiseLifeInsurance{
         address payable customerWallet = payable(_walletAddress);
         customerWallet.transfer(payoutAmount);
 
-        console.log("Payout to address: %s amount: %s", _walletAddress, payoutAmount);
-
         // Emits the event defined earlier
         emit Payout(_walletAddress, payoutAmount, customers[_walletAddress]);
 
     }
 
     function getCustomerBalance(address _walletAddress) public view returns (uint256){
-        console.log("Customer %s %s has balance of: %s", customers[_walletAddress].firstName, customers[_walletAddress].lastName, customers[_walletAddress].balance);
         return customers[_walletAddress].balance;
     }
 
     function getContractBalance() public view returns (uint256){
-        console.log("Contract balance: %s", address(this).balance);
-        //A variable of the type address always has a property called .balance which gives you the amount of ether stored on that address. 
+        //A variable of the type address always has a property called .balance which gives you the amount of ether stored on that address.
         //It doesn't mean you can access them, it just tells you how much is stored there. 
         //Remember, it's all public information. address(this) converts the Smart Contract instance to an address. 
         //So, this line essentially returns the amount of Ether that are stored on the Smart Contract itself.

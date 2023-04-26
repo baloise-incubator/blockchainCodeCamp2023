@@ -44,7 +44,7 @@ public class BlockchainService {
         try {
             numberOfCustomers = contract.numberOfCustomers().send();
         } catch (Exception e) {
-            _logger.error("Failed to execute remote function call to get number of customers from ");
+            _logger.error("Failed to execute remote function call to get number of customers from smart contract");
             throw new RuntimeException(e);
         }
         return numberOfCustomers;

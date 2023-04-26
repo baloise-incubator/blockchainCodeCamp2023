@@ -17,11 +17,14 @@ in RemixIDE.
 ## Generating a java class out of a solidity file
 1. Generate ```BaloiseLifeInsurance.bin``` and ```BaloiseLifeInsurance.abi``` files from ```BaloiseLifeInsurance.sol``` file
 ```
+cd /path/to/this/repository/blockchainCodeCamp2023/solidity/contracts
+
 solc BaloiseLifeInsurance.sol --bin --abi --optimize -o /path/to/this/repository/blockchainCodeCamp2023/java
 ```
 
 2. Generate java class out of ```.bin``` and ```.abi``` files
 ```
-web3j solidity generate -b /path/to/this/repository/blockchainCodeCamp2023/java/BaloiseLifeInsurance.bin -a /Users/kolja/Documents/CodeCamps/blockchainCodeCamp2023/java/BaloiseLifeInsurance.abi -o /Users/kolja/Documents/CodeCamps/blockchainCodeCamp2023/java/src/main/java -p code.camp.blockchainservice.contract
+cd /path/to/this/repository/blockchainCodeCamp2023/java
+web3j solidity generate -b /path/to/this/repository/blockchainCodeCamp2023/java/BaloiseLifeInsurance.bin -a /Users/kolja/Documents/CodeCamps/blockchainCodeCamp2023/java/BaloiseLifeInsurance.abi -o /Users/kolja/Documents/CodeCamps/blockchainCodeCamp2023/java/src/main/java -p code.camp.blockchainservice.blockchain.contract
 ```
 Taken from https://www.baeldung.com/smart-contracts-ethereum-solidity
