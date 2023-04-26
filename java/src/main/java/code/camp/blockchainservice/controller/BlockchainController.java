@@ -13,7 +13,7 @@ public class BlockchainController {
         this.blockchain = blockchain;
     }
     @GetMapping("/smart-contracts/{smartContractHash}")
-    SmartContract getInfo(@PathVariable Long smartContractHash) {
+    SmartContract getInfo(@PathVariable String smartContractHash) {
 
         return blockchain.getSmartContractByHash(smartContractHash);
     }
