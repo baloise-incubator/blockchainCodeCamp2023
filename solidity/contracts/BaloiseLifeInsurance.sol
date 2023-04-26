@@ -43,26 +43,27 @@ contract BaloiseLifeInsurance{
         return string.concat(customers[msg.sender].firstName, " ", customers[msg.sender].lastName);
     }
 
-    function payLifeInsurancePremium() public payable {
+    receive() external payable {
         require(msg.value > 0, "The amount must be bigger then zero.");
         //Contains the amount of Wei that was sent to the smart contract.
         customers[msg.sender].balance += msg.value;
         emit Transfer(msg.sender, msg.value, customers[msg.sender].balance);
     }
 
-    function payout() public{
-        require(customers[msg.sender].currentAge >= 60, "The age of the insured person must be equal of above 60");
+    // We assume the payout function is called from a Baloise admin account.
+    // Thus, we do not use msg.sender, but instead provide the customer's wallet address
+    function payout(address _walletAddress) public{
+        require(customers[_walletAddress].currentAge >= 60, "The age of the insured person must be equal of above 60");
 
-        uint256 payoutAmount = customers[msg.sender].balance;
-        customers[msg.sender].balance -= payoutAmount;
-        customers[msg.sender].active = false;
+        uint256 payoutAmount = customers[_walletAddress].balance;
+        customers[_walletAddress].balance -= payoutAmount;
+        customers[_walletAddress].active = false;
 
-        address payable customerWallet = payable(msg.sender);
+        address payable customerWallet = payable(_walletAddress);
         customerWallet.transfer(payoutAmount);
 
         // Emits the event defined earlier
-        emit Payout(msg.sender, payoutAmount, customers[msg.sender]);
-
+        emit Payout(_walletAddress, payoutAmount, customers[_walletAddress]);
     }
 
     function getCustomerBalance() public view returns (uint256){
