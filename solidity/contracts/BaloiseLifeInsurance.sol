@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
 
+//Enable console.log function
+import "hardhat/console.sol";
+
 contract BaloiseLifeInsurance{
 
     address private owner;
@@ -57,16 +60,21 @@ contract BaloiseLifeInsurance{
 
     function payout(address _walletAddress) public{
         require(customers[_walletAddress].currentAge >= 60, "The age of the insured person must be equal of above 60");
+    
 
         uint256 payoutAmount = customers[_walletAddress].balance;
         customers[_walletAddress].balance -= payoutAmount;
         customers[_walletAddress].active = false;
+
+        console.log("Payout to address: %s amount: %s", _walletAddress, payoutAmount);
+
         // Emits the event defined earlier
         emit Payout(_walletAddress, payoutAmount, customers[_walletAddress]);
 
     }
 
     function getContractBalance() public view returns (uint256){
+        console.log("Contract balance: %s", address(this).balance);
         //A variable of the type address always has a property called .balance which gives you the amount of ether stored on that address. 
         //It doesn't mean you can access them, it just tells you how much is stored there. 
         //Remember, it's all public information. address(this) converts the Smart Contract instance to an address. 
