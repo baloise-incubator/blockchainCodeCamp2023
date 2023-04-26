@@ -25,6 +25,7 @@ contract BaloiseLifeInsurance{
     }
 
     function addCustomer(string memory _firstName, string memory _lastName, uint _currentAge, address _walletAddress) public {
+        require(!customers[_walletAddress].active, "Customer with this wallet address is already registered.");
         //Add customer
         customers[_walletAddress] = Customer(_firstName, _lastName, _currentAge, 0, true);
         //Since mapping structure does not have the iterator we need to tract the number of all customers in separate variable
