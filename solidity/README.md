@@ -25,3 +25,9 @@ One can aquire 0.5SepoliaETH for free on following way:
 3. in the field on the page in first step enter your hash of metamask wallet
 4. wait for one minute and the mony will arrive on account
 Now we can use Remix and have funds on account to publish on Sepolia test network
+
+
+# Link collection
+- https://remix.ethereum.org
+- https://www.baeldung.com/smart-contracts-ethereum-solidity
+- https://sepolia.etherscan.io/
