@@ -26,6 +26,14 @@ One can aquire 0.5SepoliaETH for free on following way:
 4. wait for one minute and the mony will arrive on account
 Now we can use Remix and have funds on account to publish on Sepolia test network
 
+Interesting stuff:
+Solidty does not work with decimal because all payments can be done WEI(10^18 WEI = 1 ETH). 
+There's no need to use fractional values - all values are represented in wei, which is the
+smallest unit of ether.
+
+## Maximum contract storage
+https://ethereum.stackexchange.com/questions/1038/is-there-a-theoretical-limit-for-amount-of-data-that-a-contract-can-store
+Contract storage is a key of 32 bytes and a value of 32 bytes, so the maximum a single contract can store is around 1.46 GB (32^32).
 
 # Link collection
 - https://remix.ethereum.org

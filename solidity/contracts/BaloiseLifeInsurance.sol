@@ -44,6 +44,7 @@ contract BaloiseLifeInsurance{
 
     function mountlyPay(address _walletAddress, uint amount) public {
         require(amount > 0, "The amount must be bigger then zero.");
+        require(customers[_walletAddress].active, "The user has been payed out");
         customers[_walletAddress].balance += amount;
         //ownerAddress.transfer(amount);
 
