@@ -32,8 +32,18 @@ Wallet addresses used for test purposes:
 - 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4
 - 0x1aE0EA34a72D944a8C7603FfB3eC30a6669E454C
 
+Baloise Test Wallet:
+
+0xa1b254c727D9B0E789B9aAA00Ef6f4F526107842
+
+Customer Test Wallet:
+
+0xD166B90156f25F5CD2e4B9D3cdC35F9F283C75C3
+
+
 Sepolia Etherscan
  - https://sepolia.etherscan.io/
 
 Infura API Key
 - https://app.infura.io/dashboard
+

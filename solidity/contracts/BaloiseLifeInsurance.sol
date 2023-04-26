@@ -5,10 +5,6 @@ pragma solidity >=0.7.0 <0.9.0;
 import "hardhat/console.sol";
 
 contract BaloiseLifeInsurance{
-
-    address private owner;
-    uint256 private balanceReceived;
-    address payable private ownerAddress;
     
     struct Customer { 
       string firstName;
@@ -21,17 +17,14 @@ contract BaloiseLifeInsurance{
     event Transfer(address sender, uint256 amount, uint256 balance);
     event Payout(address receiver, uint256 payout, Customer customer);
 
+    address private owner;
+    address payable private ownerAddress;
     mapping (address => Customer) private customers;
     uint public numberOfCustomers;
 
     constructor() {
         // 'msg.sender' is sender of current call, contract deployer for a constructor
         owner = msg.sender;
-    }
-
-    function receiveMoney() public payable {
-        //Contains the amount of Wei that was sent to the smart contract.
-        balanceReceived += msg.value;
     }
 
     function addCustomer(string memory _firstName, string memory _lastName, uint _currentAge, address _walletAddress) public {
@@ -58,6 +51,14 @@ contract BaloiseLifeInsurance{
         emit Transfer(_walletAddress, amount, customers[_walletAddress].balance);
     }
 
+    function payLifeInsurancePremium(address _walletAddress) public payable {
+        require(msg.value > 0, "The amount must be bigger then zero.");
+        //Contains the amount of Wei that was sent to the smart contract.
+        customers[_walletAddress].balance += msg.value;
+        console.log("Premium payed - customer: '%s %s' amount: %s", customers[_walletAddress].firstName, customers[_walletAddress].lastName, msg.value);
+        console.log("Contract balance: %s", address(this).balance);
+    }
+
     function payout(address _walletAddress) public{
         require(customers[_walletAddress].currentAge >= 60, "The age of the insured person must be equal of above 60");
     
@@ -66,11 +67,19 @@ contract BaloiseLifeInsurance{
         customers[_walletAddress].balance -= payoutAmount;
         customers[_walletAddress].active = false;
 
+        address payable customerWallet = payable(_walletAddress);
+        customerWallet.transfer(payoutAmount);
+
         console.log("Payout to address: %s amount: %s", _walletAddress, payoutAmount);
 
         // Emits the event defined earlier
         emit Payout(_walletAddress, payoutAmount, customers[_walletAddress]);
 
+    }
+
+    function getCustomerBalance(address _walletAddress) public view returns (uint256){
+        console.log("Customer %s %s has balance of: %s", customers[_walletAddress].firstName, customers[_walletAddress].lastName, customers[_walletAddress].balance);
+        return customers[_walletAddress].balance;
     }
 
     function getContractBalance() public view returns (uint256){
