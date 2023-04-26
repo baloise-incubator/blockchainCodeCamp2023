@@ -1,4 +1,4 @@
-package code.camp.blockchainservice.contract;
+package code.camp.blockchainservice.blockchain.contract;
 
 import io.reactivex.Flowable;
 import io.reactivex.functions.Function;

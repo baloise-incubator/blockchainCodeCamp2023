@@ -1,4 +1,4 @@
-package code.camp.blockchainservice.controller;
+package code.camp.blockchainservice.domain;
 
 public class Customer {
     public String firstName;
