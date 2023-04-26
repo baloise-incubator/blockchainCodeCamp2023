@@ -26,13 +26,13 @@ contract BaloiseLifeInsurance{
         owner = msg.sender;
     }
 
-    function addCustomer(string memory _firstName, string memory _lastName, uint _currentAge) public {
-        require(!customers[msg.sender].active, "Customer with this wallet address is already registered.");
+    function addCustomer(string memory _firstName, string memory _lastName, uint _currentAge, address _walletAddress) public {
+        require(!customers[_walletAddress].active, "Customer with this wallet address is already registered.");
         //Add customer
-        customers[msg.sender] = Customer(_firstName, _lastName, _currentAge, 0, true, msg.sender);
+        customers[_walletAddress] = Customer(_firstName, _lastName, _currentAge, 0, true, _walletAddress);
         //Since mapping structure does not have the iterator we need to tract the number of all customers in separate variable
         numberOfCustomers++;
-        emit Registration(msg.sender, customers[msg.sender]);
+        emit Registration(_walletAddress, customers[_walletAddress]);
     }
 
     function getCustomerAge() public view returns(uint){
