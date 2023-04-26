@@ -4,7 +4,7 @@ pragma solidity >=0.7.0 <0.9.0;
 contract BaloiseLifeInsurance{
 
     address private owner;
-    uint256 private weiSent;
+    uint256 private balanceReceived;
     address payable private ownerAddress;
     
     struct Customer { 
@@ -24,7 +24,11 @@ contract BaloiseLifeInsurance{
     constructor() {
         // 'msg.sender' is sender of current call, contract deployer for a constructor
         owner = msg.sender;
-        //weiSent = msg.value;
+    }
+
+    function receiveMoney() public payable {
+        //Contains the amount of Wei that was sent to the smart contract.
+        balanceReceived += msg.value;
     }
 
     function addCustomer(string memory _firstName, string memory _lastName, uint _currentAge, address _walletAddress) public {
