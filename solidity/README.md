@@ -6,7 +6,8 @@ https://ethereum.org/en/developers/docs/smart-contracts/anatomy/
 
 For creating smart contract we use [Remix IDE](https://remix.ethereum.org/) and [Solidity](https://docs.soliditylang.org/en/v0.8.17/introduction-to-smart-contracts.html) language
 
-There you can create contract, however deployment would be  local and not
+There you can create contract, however by default deployment would be in
+local javascript based blockchain that run in the browser and not to real ethereum blockchain
 published to any network. In order to be able to publish smart contract
 to public blockchain network like Ethereum one needs to connect remix online
 ide with wallet. We used [Metamask](https://metamask.io/)
