@@ -16,37 +16,56 @@ import org.web3j.tx.gas.DefaultGasProvider;
 
 import java.math.BigInteger;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @Slf4j
 public class BlockchainService {
 
     private static String accessToken;
-    private final String password;
-    private final String pathToWalletFile;
     private final SmartContractMapper mapper = new SmartContractMapper();
-    private final Logger _logger = LoggerFactory.getLogger(BlockchainService.class);
+
+    private static final String SMART_CONTRACT_HASH = "0xf7D7Fc1C52Ee76b1f87F7eCD386201DbF448A5Fa";
+
+    public static final String CUSTOMER_1 = "customer1";
+    public static final String CUSTOMER_2 = "customer2";
+
+    private  Map<String, Credentials> credentialsMap = new HashMap<>();
+
 
     public BlockchainService(ServiceConfig config) {
-        password = config.getWalletPassword();
-        accessToken = config.getInfuraToken();
-        URL resource = getClass().getClassLoader().getResource(config.getPathToWalletFile());
-        if (resource == null) {
-            throw new IllegalArgumentException("file not found!");
-        } else {
-            pathToWalletFile =  resource.getPath();
-        }
+        init(config);
+//        URL resource = getClass().getClassLoader().getResource(config.getPathToWalletFile());
+//        if (resource == null) {
+//            throw new IllegalArgumentException("file not found!");
+//        } else {
+//            pathToWalletFile =  resource.getPath();
+//        }
     }
-    public SmartContract getSmartContractByHash(String smartContractHash) {
-        _logger.info("calling Etherium sepolia TEST blockchain for hash : " + smartContractHash);
-        var web3j = Web3j.build(new HttpService("https://sepolia.infura.io/v3/" + accessToken));
-        var credentials = getCredentials(pathToWalletFile);
-        var contract = BaloiseLifeInsurance.load(smartContractHash, web3j, credentials,  new DefaultGasProvider());
-        _logger.info("Successfully loaded smart contract with id : " + contract.getContractAddress());
-        var numberOfCustomers = getNumberOfCustomers(contract);
 
-        var smartContract = mapper.map(contract.getContractAddress(), numberOfCustomers);
-        return smartContract;
+    private void init(ServiceConfig config){
+        accessToken = config.getInfuraToken();
+        credentialsMap.put(CUSTOMER_1, getCredentials(config.getCustomer1Password(), config.getCustomer1WalletFile()));
+        credentialsMap.put(CUSTOMER_2, getCredentials(config.getCustomer2Password(), config.getCustomer2WalletFile()));
+    }
+
+//    public SmartContract getSmartContractByHash(String smartContractHash) {
+//        log.info("calling Etherium sepolia TEST blockchain for hash : " + smartContractHash);
+//        var web3j = Web3j.build(new HttpService("https://sepolia.infura.io/v3/" + accessToken));
+//        var credentials = getCredentials(pathToWalletFile);
+//        BaloiseLifeInsurance contract = BaloiseLifeInsurance.load(smartContractHash, web3j, credentials,  new DefaultGasProvider());
+//        log.info("Successfully loaded smart contract with id : " + contract.getContractAddress());
+//        var numberOfCustomers = getNumberOfCustomers(contract);
+//
+//        var smartContract = mapper.map(contract.getContractAddress(), numberOfCustomers);
+//        return smartContract;
+//    }
+
+    public BaloiseLifeInsurance getSmartContract(String customerId) {
+        log.info("calling Etherium sepolia TEST blockchain for hash : " + SMART_CONTRACT_HASH);
+        var web3j = Web3j.build(new HttpService("https://sepolia.infura.io/v3/" + accessToken));
+        return BaloiseLifeInsurance.load(SMART_CONTRACT_HASH, web3j, credentialsMap.get(customerId),  new DefaultGasProvider());
     }
 
     private BigInteger getNumberOfCustomers(BaloiseLifeInsurance contract) {
@@ -54,18 +73,22 @@ public class BlockchainService {
         try {
             numberOfCustomers = contract.numberOfCustomers().send();
         } catch (Exception e) {
-            _logger.error("Failed to execute remote function call to get number of customers from smart contract");
+            log.error("Failed to execute remote function call to get number of customers from smart contract");
             throw new RuntimeException(e);
         }
         return numberOfCustomers;
     }
 
-    private Credentials getCredentials(String pathToWalletFile) {
+    private Credentials getCredentials(String password, String pathToWalletFile) {
+        URL resource = getClass().getClassLoader().getResource(pathToWalletFile);
+        if (resource == null) {
+            throw new IllegalArgumentException("Wallet file not found!");
+        }
         Credentials credentials;
         try {
-            credentials = WalletUtils.loadCredentials(password, pathToWalletFile);
+            credentials = WalletUtils.loadCredentials(password, resource.getPath());
         } catch (Exception e) {
-            _logger.error("Error during setting credentials of wallet", e);
+            log.error("Error during setting credentials of wallet", e);
             throw new RuntimeException(e);
         }
         return credentials;
