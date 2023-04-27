@@ -49,6 +49,16 @@ public class BlockchainController {
 
     }
 
+    @PostMapping("/customer/asAdminUser")
+    public void createCustomer(@Parameter(required = true, example = "customer1") String authenticatedUser,
+                               @Parameter(required = true, example = "Hans") String firstName,
+                               @Parameter(required = true, example = "Muster") String lastName,
+                               @Parameter(required = true, example = "60") BigInteger currentAge,
+                               @Parameter(required = true, example = "walletAddress") String walletAddress) throws Exception {
+        var smartContract = blockchain.getSmartContract(authenticatedUser);
+        smartContract.addCustomer(firstName, lastName, currentAge, walletAddress).send();
+    }
+
     @GetMapping("/customer/fullName")
     public String getFullName(@Parameter(required = true, example = "customer1") String customer) throws Exception {
         var smartContract = blockchain.getSmartContract(customer);
