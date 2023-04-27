@@ -34,7 +34,6 @@ public class BlockchainService {
         var contract = BaloiseLifeInsurance.load(smartContractHash, web3j, credentials,  new DefaultGasProvider());
         _logger.info("Successfully loaded smart contract with id : " + contract.getContractAddress());
         var numberOfCustomers = getNumberOfCustomers(contract);
-
         var smartContract = mapper.map(contract.getContractAddress(), numberOfCustomers);
         return smartContract;
     }
