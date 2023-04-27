@@ -31,7 +31,7 @@ public class BlockchainController {
     @PostMapping("/customer")
     public void createCustomer() throws Exception {
         var smartContract = blockchain.getSmartContract(BlockchainService.CUSTOMER_1);
-        smartContract.addCustomer("Hans", "Mustermann", BigInteger.valueOf(60)).send().;
+        smartContract.addCustomer("Hans", "Mustermann", BigInteger.valueOf(60)).send();
 //        smartContract.registrationEventFlowable(new EthFilter()).subscribe(registrationEventResponse -> {
 //            final BaloiseLifeInsurance.Customer customer = registrationEventResponse.customer;
 //            final String customerAddress = registrationEventResponse.customerAddress;
