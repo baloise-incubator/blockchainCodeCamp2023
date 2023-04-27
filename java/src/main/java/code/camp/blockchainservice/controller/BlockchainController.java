@@ -1,6 +1,7 @@
 package code.camp.blockchainservice.controller;
 
 import code.camp.blockchainservice.blockchain.BlockchainService;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,8 @@ public class BlockchainController {
     }
 
     @PostMapping("/customer")
-    public void createCustomer() throws Exception {
-        var smartContract = blockchain.getSmartContract(BlockchainService.CUSTOMER_1);
+    public void createCustomer(@Parameter(required = true, example = "customer1") String customer) throws Exception {
+        var smartContract = blockchain.getSmartContract(customer);
         smartContract.addCustomer("Hans", "Mustermann", BigInteger.valueOf(60)).send();
 //        smartContract.registrationEventFlowable(new EthFilter()).subscribe(registrationEventResponse -> {
 //            final BaloiseLifeInsurance.Customer customer = registrationEventResponse.customer;
@@ -48,5 +49,22 @@ public class BlockchainController {
 
     }
 
+    @GetMapping("/customer/fullName")
+    public String getFullName(@Parameter(required = true, example = "customer1") String customer) throws Exception {
+        var smartContract = blockchain.getSmartContract(customer);
+        return smartContract.getFullName().send();
+    }
+
+    @GetMapping("/customer/age")
+    public BigInteger getCustomerAge(@Parameter(required = true, example = "customer1") String customer) throws Exception {
+        var smartContract = blockchain.getSmartContract(customer);
+        return smartContract.getCustomerAge().send();
+    }
+
+    @GetMapping("/balance")
+    public BigInteger getContractBalance(@Parameter(required = true, example = "customer1") String customer) throws Exception {
+        var smartContract = blockchain.getSmartContract(customer);
+        return smartContract.getContractBalance().send();
+    }
 
 }
