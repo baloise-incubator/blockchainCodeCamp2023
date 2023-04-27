@@ -1,12 +1,9 @@
 package code.camp.blockchainservice.controller;
 
 import code.camp.blockchainservice.blockchain.BlockchainService;
-import code.camp.blockchainservice.blockchain.contract.BaloiseLifeInsurance;
-import code.camp.blockchainservice.domain.SmartContract;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import org.web3j.protocol.core.methods.request.EthFilter;
 
 import java.math.BigInteger;
 
@@ -22,11 +19,16 @@ public class BlockchainController {
 //        this.blockchain = blockchain;
 //    }
 
-//    @GetMapping("/{smartContractHash}")
-//    SmartContract getInfo(@PathVariable String smartContractHash) {
-//
-//        return blockchain.getSmartContractByHash(smartContractHash);
-//    }
+    @PostMapping("/payout/wallet/{wallet}")
+    public void payoutToWallet(@PathVariable String wallet) {
+        blockchain.payoutToWallet(wallet);
+    }
+
+    @PostMapping("/payout/customer/{customer}")
+    public void payout(@PathVariable String customer) {
+        var smartContract = blockchain.getSmartContract(customer);
+        blockchain.payoutToWallet(customer);
+    }
 
     @PostMapping("/customer")
     public void createCustomer() throws Exception {

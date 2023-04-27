@@ -25,9 +25,7 @@ public class BlockchainService {
 
     private static String accessToken;
     private final SmartContractMapper mapper = new SmartContractMapper();
-
     private static final String SMART_CONTRACT_HASH = "0xf7D7Fc1C52Ee76b1f87F7eCD386201DbF448A5Fa";
-
     public static final String CUSTOMER_1 = "customer1";
     public static final String CUSTOMER_2 = "customer2";
 
@@ -65,7 +63,9 @@ public class BlockchainService {
     public BaloiseLifeInsurance getSmartContract(String customerId) {
         log.info("calling Etherium sepolia TEST blockchain for hash : " + SMART_CONTRACT_HASH);
         var web3j = Web3j.build(new HttpService("https://sepolia.infura.io/v3/" + accessToken));
-        return BaloiseLifeInsurance.load(SMART_CONTRACT_HASH, web3j, credentialsMap.get(customerId),  new DefaultGasProvider());
+        var contract = BaloiseLifeInsurance.load(SMART_CONTRACT_HASH, web3j, credentialsMap.get(customerId),  new DefaultGasProvider());
+        log.info("Successfully loaded smart contract with id : " + contract.getContractAddress());
+        return contract;
     }
 
     private BigInteger getNumberOfCustomers(BaloiseLifeInsurance contract) {
@@ -92,5 +92,11 @@ public class BlockchainService {
             throw new RuntimeException(e);
         }
         return credentials;
+    }
+
+    public void payoutToWallet(String wallet) {
+        var smartContract = getSmartContract(BlockchainService.CUSTOMER_1);
+        smartContract.payout(wallet);
+        log.info("Successfully payed out pension funds to customer with id : " + wallet);
     }
 }
