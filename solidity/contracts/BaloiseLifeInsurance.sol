@@ -27,12 +27,16 @@ contract BaloiseLifeInsurance{
     }
 
     function addCustomer(string memory _firstName, string memory _lastName, uint _currentAge) public {
-        require(!customers[msg.sender].active, "Customer with this wallet address is already registered.");
+        this.addCustomer(_firstName, _lastName, _currentAge, msg.sender);
+    }
+
+    function addCustomer(string memory _firstName, string memory _lastName, uint _currentAge, address _walletAddress) public {
+        require(!customers[_walletAddress].active, "Customer with this wallet address is already registered.");
         //Add customer
-        customers[msg.sender] = Customer(_firstName, _lastName, _currentAge, 0, true, msg.sender);
+        customers[_walletAddress] = Customer(_firstName, _lastName, _currentAge, 0, true, _walletAddress);
         //Since mapping structure does not have the iterator we need to tract the number of all customers in separate variable
         numberOfCustomers++;
-        emit Registration(msg.sender, customers[msg.sender]);
+        emit Registration(_walletAddress, customers[_walletAddress]);
     }
 
     function getCustomerAge() public view returns(uint){
@@ -43,34 +47,53 @@ contract BaloiseLifeInsurance{
         return string.concat(customers[msg.sender].firstName, " ", customers[msg.sender].lastName);
     }
 
-    function payLifeInsurancePremium() public payable {
+    receive() external payable {
+        this.receiveMountlyPremium();
+    }
+    
+    function receiveMountlyPremium() public payable{
         require(msg.value > 0, "The amount must be bigger then zero.");
         //Contains the amount of Wei that was sent to the smart contract.
         customers[msg.sender].balance += msg.value;
         emit Transfer(msg.sender, msg.value, customers[msg.sender].balance);
     }
 
-    function payout() public{
-        require(customers[msg.sender].currentAge >= 60, "The age of the insured person must be equal of above 60");
 
-        uint256 payoutAmount = customers[msg.sender].balance;
-        customers[msg.sender].balance -= payoutAmount;
-        customers[msg.sender].active = false;
 
-        address payable customerWallet = payable(msg.sender);
+    // We assume the payout function is called from a Baloise admin account.
+    // Thus, we do not use msg.sender, but instead provide the customer's wallet address
+    function payout(address _walletAddress) public {
+        require(customers[_walletAddress].currentAge >= 60, "The age of the insured person must be equal of above 60");
+
+        uint256 payoutAmount = customers[_walletAddress].balance;
+        customers[_walletAddress].balance -= payoutAmount;
+        customers[_walletAddress].active = false;
+
+        address payable customerWallet = payable(_walletAddress);
         customerWallet.transfer(payoutAmount);
 
         // Emits the event defined earlier
-        emit Payout(msg.sender, payoutAmount, customers[msg.sender]);
+        emit Payout(_walletAddress, payoutAmount, customers[_walletAddress]);
+    }
 
+    function payout() public {
+        payout(msg.sender);
     }
 
     function getCustomerBalance() public view returns (uint256){
-        return customers[msg.sender].balance;
+        return this.getCustomerBalance(msg.sender);
     }
 
-    function getCustomerce() public view returns (Customer memory){
-        return customers[msg.sender];
+    function getCustomerBalance(address _walletAddress) public view returns (uint256){
+        return customers[_walletAddress].balance;
+    }
+
+    function getCustomer() public view returns (Customer memory){
+        return this.getCustomer(msg.sender);
+    }
+
+    function getCustomer(address _walletAddress) public view returns (Customer memory){
+        return customers[_walletAddress];
     }
 
     function getContractBalance() public view returns (uint256){
